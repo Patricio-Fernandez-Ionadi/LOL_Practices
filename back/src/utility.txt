@@ -1,0 +1,57 @@
+// Seasons
+// https://static.developer.riotgames.com/docs/lol/seasons.json
+
+// Queue Ids
+// https://static.developer.riotgames.com/docs/lol/queues.json
+
+// Maps
+// https://static.developer.riotgames.com/docs/lol/maps.json
+
+// Game Modes
+// https://static.developer.riotgames.com/docs/lol/gameModes.json
+
+// Game Types
+// https://static.developer.riotgames.com/docs/lol/gameTypes.json
+
+// /////////////////////////////////////////////////////////////////////////////
+
+// Champions
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/data/en_US/champion.json
+
+// Splash
+// http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg
+
+// Champion Loading Screen Assets
+// http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Aatrox_0.jpg
+/* The number at the end of the filename follows the same convention described in the Champion Splash Art. */
+
+// Champion Square Assets
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/img/champion/Aatrox.png
+
+// Champion Passive Assets
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/img/passive/Anivia_P.png
+
+// Champion Ability Assets
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/img/spell/FlashFrost.png
+
+// /////////////////////////////////////////////////////////////////////////////
+
+// Items
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/data/en_US/item.json
+
+// Item Assets
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/img/item/1001.png
+
+// /////////////////////////////////////////////////////////////////////////////
+
+// Other
+// Summoner Spells
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/data/en_US/summoner.json
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/img/spell/SummonerFlash.png
+
+// Profile Icons
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/data/en_US/profileicon.json
+// http://ddragon.leagueoflegends.com/cdn/11.23.1/img/profileicon/685.png
+
+// Minimaps
+// http://ddragon.leagueoflegends.com/cdn/6.8.1/img/map/map11.png
