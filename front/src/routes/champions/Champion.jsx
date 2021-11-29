@@ -1,3 +1,4 @@
+import Loading from "../../components/Loading"
 import useChampion from "../../services/useChampion"
 import ChampionBanner from "./ChampionBanner"
 import ChampionLore from "./ChampionLore"
@@ -19,11 +20,7 @@ const Champion = ({ match }) => {
 			</>
 		)
 	} else {
-		return (
-			<>
-				<p>SEARCHING...</p>
-			</>
-		)
+		return <Loading />
 	}
 }
 
