@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import { env } from "./environment"
+import { env } from "../environment"
 
 const useSummoner = (summonerName) => {
 	const [state, setState] = useState()
 
 	useEffect(() => {
-		return fetch(`${env.SV_HOST}/summoner/${summonerName || "random"}`)
+		return fetch(`${env.SV_HOST}/summoner/${summonerName}`)
 			.then((res) => res.json())
 			.then((res) => {
 				if (res) {

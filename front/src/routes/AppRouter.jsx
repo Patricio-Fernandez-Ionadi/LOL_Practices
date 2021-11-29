@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom"
 import SearchBar from "../components/SearchBar"
 import { SearchingSummonerContext } from "../context/SummonerSearchContext"
+import Champion from "./champions/Champion"
 import Champions from "./champions/Champions"
 import SummonerStats from "./summoner/SummonerStats"
 
@@ -17,7 +18,9 @@ const AppRouter = () => {
 						<Link to={`/`}>Home</Link>
 					</li>
 					<li>
-						<Link to={`/summoner/${summoner}`}>Last Summoner Searched</Link>
+						<Link to={`/summoner/${summoner ? summoner : ""}`}>
+							Last Summoner Searched
+						</Link>
 					</li>
 					<li>
 						<Link to={`/champions`}>Champions</Link>
@@ -27,8 +30,9 @@ const AppRouter = () => {
 			<SearchBar />
 
 			<Switch>
-				<Route path='/champions' component={Champions} />
-				<Route path='/summoner/:summonerName' component={SummonerStats} />
+				<Route exact path='/champions' component={Champions} />
+				<Route exact path='/champions/:champion' component={Champion} />
+				<Route exact path='/summoner/:summonerName' component={SummonerStats} />
 			</Switch>
 		</Router>
 	)

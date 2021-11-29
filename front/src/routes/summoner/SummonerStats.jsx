@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import useSummoner from "../../useSummoner"
+import useSummoner from "../../services/useSummoner"
 
 const SummonerStats = () => {
 	let { summonerName } = useParams()
@@ -31,7 +31,7 @@ const SummonerStats = () => {
 	} else {
 		return (
 			<>
-				<p>NO SUMMONER</p>
+				<p>SEARCHING SUMMONER...</p>
 			</>
 		)
 	}
