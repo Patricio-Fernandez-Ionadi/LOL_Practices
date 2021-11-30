@@ -1,8 +1,9 @@
 import React from "react"
+import ContainerInt from "../../components/Layout/Container"
 
 const ChampionSpells = ({ champ, spells }) => {
 	return (
-		<>
+		<ContainerInt>
 			<h2>Skills</h2>
 			<div>
 				<h4>Passive - {champ.passive.name}</h4>
@@ -48,7 +49,7 @@ const ChampionSpells = ({ champ, spells }) => {
 				<p>{champ.enemytips[0]}</p>
 				<p>{champ.enemytips[1]}</p>
 			</div>
-		</>
+		</ContainerInt>
 	)
 }
 

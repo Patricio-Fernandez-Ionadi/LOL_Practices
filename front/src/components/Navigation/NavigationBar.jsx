@@ -1,7 +1,7 @@
 import { useState } from "react"
 import NavButton from "./NavButton"
 
-const NavigationBar = () => {
+const NavigationBar = ({ routes }) => {
 	const [anchorEl, setAnchorEl] = useState()
 
 	const handlerNav = (e) => {
@@ -9,20 +9,28 @@ const NavigationBar = () => {
 		setAnchorEl(e.target)
 	}
 
+	const navigation = {
+		position: "fixed",
+		top: 0,
+		height: "60px",
+		width: "100%",
+		zIndex: 999,
+	}
+
 	return (
-		<nav>
-			<NavButton
-				path='/'
-				label='Home'
-				clickEvent={handlerNav}
-				anchorEl={anchorEl}
-			/>
-			<NavButton
-				path='/champions'
-				label='Champions'
-				clickEvent={handlerNav}
-				anchorEl={anchorEl}
-			/>
+		<nav style={navigation}>
+			{routes.map((each) => {
+				const { path, label, name } = each
+				return (
+					<NavButton
+						key={name}
+						path={path}
+						label={label}
+						clickEvent={handlerNav}
+						anchorEl={anchorEl}
+					/>
+				)
+			})}
 		</nav>
 	)
 }

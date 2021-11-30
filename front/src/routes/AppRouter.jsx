@@ -1,7 +1,10 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { routes } from "../routes"
+// Components
 import Layout from "../components/Layout/Layout"
 import NavigationBar from "../components/Navigation/NavigationBar"
 import SearchBar from "../components/SearchBar"
+// Pages
 import Champion from "./champions/Champion"
 import Champions from "./champions/Champions"
 import SummonerStats from "./summoner/SummonerStats"
@@ -10,7 +13,7 @@ const AppRouter = () => {
 	return (
 		<Router>
 			<Layout>
-				<NavigationBar />
+				<NavigationBar routes={routes} />
 				<SearchBar />
 
 				<Switch>

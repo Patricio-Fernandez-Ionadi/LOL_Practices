@@ -1,8 +1,9 @@
 import React from "react"
+import ContainerInt from "../../components/Layout/Container"
 
 const ChampionSkins = ({ skins, id }) => {
 	return (
-		<>
+		<ContainerInt>
 			<h2>Skins</h2>
 			<div style={{ display: "flex", maxWidth: "100%", flexWrap: "wrap" }}>
 				{skins.map((skin) => {
@@ -32,7 +33,7 @@ const ChampionSkins = ({ skins, id }) => {
 					}
 				})}
 			</div>
-		</>
+		</ContainerInt>
 	)
 }
 

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { makeStyles } from "@material-ui/core"
 import { color } from "../../environment"
+import ContainerInt from "../../components/Layout/Container"
 
 const useStyles = makeStyles({
 	title: {
@@ -9,34 +10,51 @@ const useStyles = makeStyles({
 	text: {
 		color: color.base.teal.light,
 	},
-	loreContainer: {
-		backgroundColor: color.base.teal.dark,
+	readToggle: {
+		background: "none",
+		border: "none",
+		outline: "none",
+		color: color.base.teal.light,
+		marginLeft: "10px",
+		"&:hover": {
+			color: color.base.teal.regular,
+		},
 	},
 })
 const ChampionLore = ({ blurb, lore }) => {
 	const [readMore, setReadMore] = useState(false)
 	const classes = useStyles()
-	const { title, text, loreContainer } = classes
+	const { title, text, readToggle } = classes
 
 	return (
-		<div className={loreContainer}>
+		<ContainerInt>
 			<h2 className={title}>Lore</h2>
 			{readMore ? (
 				<p className={text}>
 					{lore}{" "}
 					<span>
-						<button onClick={(e) => setReadMore(!readMore)}>contract</button>
+						<button
+							className={readToggle}
+							onClick={(e) => setReadMore(!readMore)}
+						>
+							(contract...)
+						</button>
 					</span>
 				</p>
 			) : (
 				<p className={text}>
 					{blurb}{" "}
 					<span>
-						<button onClick={(e) => setReadMore(!readMore)}>expand</button>
+						<button
+							className={readToggle}
+							onClick={(e) => setReadMore(!readMore)}
+						>
+							(expand...)
+						</button>
 					</span>
 				</p>
 			)}
-		</div>
+		</ContainerInt>
 	)
 }
 

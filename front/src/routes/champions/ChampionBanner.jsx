@@ -8,7 +8,6 @@ const useStyles = makeStyles({
 		height: "1000px",
 		maxHeight: "50vh",
 		position: "relative",
-		left: "-2%",
 		overflow: "hidden",
 		display: "flex",
 		justifyContent: "center",
