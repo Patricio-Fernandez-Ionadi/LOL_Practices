@@ -7,10 +7,10 @@ const useStyles = makeStyles({
 		color: color.brown.light,
 	},
 	text: {
-		color: color.blue.light,
+		color: color.base.teal.light,
 	},
 	loreContainer: {
-		backgroundColor: color.blue.dark,
+		backgroundColor: color.base.teal.dark,
 	},
 })
 const ChampionLore = ({ blurb, lore }) => {

@@ -4,10 +4,10 @@ import { color } from "../../environment"
 
 const useStyles = makeStyles({
 	link: {
-		color: color.gold.lighter,
+		color: color.gold.regular,
 		fontWeight: "bold",
 		textDecoration: "none",
-		textShadow: `0 0 20px ${color.gold.dark}`,
+		textShadow: `0 0 3px ${color.base.teal.blacked}`,
 	},
 	champStamp: {
 		position: "relative",
@@ -19,21 +19,28 @@ const useStyles = makeStyles({
 		position: "absolute",
 		width: "130px",
 		zIndex: "10",
-		// boxShadow: `0 0 10px 10px ${color.base.medium} inset`,
+	},
+	nameAndAsset: {
+		width: "95px",
+		height: "95px",
+		position: "relative",
+		top: "18px",
+		left: "17px",
+		borderRadius: "50%",
+		// boxShadow: `0px 0px 10px .2em ${color.base.dark}, 0px 0px 20px .8em ${color.base.dark}`,
+		overflow: "hidden",
 	},
 	champAsset: {
-		display: "block",
-		position: "relative",
-		top: "20px",
-		left: "20px",
-		width: "90px",
 		borderRadius: "50%",
-		boxShadow: `0px 0px 8px 8px ${color.base.dark}`,
+		width: "105px",
+		position: "relative",
+		left: "-4px",
+		top: "-4px",
 	},
 	champName: {
 		position: "absolute",
-		bottom: "40px",
-		left: "65px",
+		bottom: "10px",
+		left: "50%",
 		transform: "translateX(-50%)",
 	},
 })
@@ -54,12 +61,14 @@ const ChampionsPortrait = ({ name, id, each }) => {
 					src={`./assets/portrait-frame.png`}
 					alt='prtrait-frame'
 				/>
-				<img
-					className={classes.champAsset}
-					src={`http://ddragon.leagueoflegends.com/cdn/11.23.1/img/champion/${each.image.full}`}
-					alt='champ splash loading'
-				/>
-				<span className={classes.champName}>{name}</span>
+				<div className={classes.nameAndAsset}>
+					<img
+						className={classes.champAsset}
+						src={`http://ddragon.leagueoflegends.com/cdn/11.23.1/img/champion/${each.image.full}`}
+						alt='champ splash loading'
+					/>
+					<span className={classes.champName}>{name}</span>
+				</div>
 			</div>
 		</Link>
 	)

@@ -4,20 +4,28 @@ import { color } from "../../environment"
 
 const useStyles = makeStyles({
 	bannerContainer: {
-		width: "100%",
-		maxHeight: "100vh",
+		width: "104%",
+		height: "1000px",
+		maxHeight: "50vh",
 		position: "relative",
+		left: "-2%",
 		overflow: "hidden",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		marginBottom: "30px",
 	},
 	bannerImage: {
+		position: "absolute",
+		top: "-25px",
 		minWidth: "100%",
 		maxWidth: "100%",
+		display: "block",
 	},
 	champTitle: {
 		position: "absolute",
 		top: 0,
 		left: 0,
-		"& p, small": {},
 		color: color.white,
 	},
 })
@@ -32,7 +40,7 @@ const ChampionBanner = ({ id, name, title }) => {
 				className={classes.bannerImage}
 			/>
 			<div className={classes.champTitle}>
-				<p>{name}</p>
+				<h1>{name}</h1>
 				<small>{title}</small>
 			</div>
 		</div>

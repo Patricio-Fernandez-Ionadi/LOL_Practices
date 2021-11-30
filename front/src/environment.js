@@ -5,16 +5,16 @@ export const env = {
 
 export const color = {
 	base: {
-		light: "#18D0CC",
 		medium: "#18D0CC",
 		dark: "#183F3E",
 		darken: "#142021",
 		background: "#0E1617",
-	},
-	blue: {
-		light: "#A5F5D8",
-		medium: "#3A7875",
-		dark: "#14555B",
+		teal: {
+			light: "#0ACAE5",
+			regular: "#0596AA",
+			dark: "#005176",
+			blacked: "#061521",
+		},
 	},
 	brown: {
 		textLight: "#9F8B62",
@@ -26,14 +26,22 @@ export const color = {
 		dark: "#3E3023",
 	},
 	gold: {
-		lighter: "#BCB152",
-		light: "#948046",
-		medium: "#8E7A48",
-		dark: "#725F31",
+		regular: "#E0B83C",
+		light: "#CEAE56",
+		medium: "#A98234",
+		dark: "#937D39",
+		darken: "#65491E",
 	},
 	background: {
 		darken: "#0E1617",
 		dark: "#132225",
+	},
+	btn: {
+		background: "#1E2328",
+		text: {
+			light: "#E6DCCA",
+			regular: "#CDBE91",
+		},
 	},
 	white: "#FFF",
 	black: {
@@ -42,7 +50,7 @@ export const color = {
 	},
 	stats: {
 		experience: "#9D25E9",
-		health: "#17BF50",
+		health: "#09A646",
 		mana: "#2163DE",
 	},
 	team: {
