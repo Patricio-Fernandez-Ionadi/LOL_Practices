@@ -1,1 +1,1 @@
-GET http://localhost:3001/summoner/Éster Piscore
+GET http://localhost:3001/summoner/azedor

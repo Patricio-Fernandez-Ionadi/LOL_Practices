@@ -20,8 +20,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/summoner", summonerRoute)
-app.use("/champions", championsRoute)
 app.use("/matches", matchesRoute)
+app.use("/champions", championsRoute)
 
 const { NODE_ENV } = process.env
 const PORT = NODE_ENV === "test" ? 1234 : 3001

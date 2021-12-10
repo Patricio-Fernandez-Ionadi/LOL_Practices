@@ -1,4 +1,5 @@
-const { getSummoner, getMatch } = require("./helpers")
+const { getSummoner } = require("../services/summonerServices")
+const { getMatch } = require("../services/matchServices")
 
 exports.summonerResume = async (req, res) => {
 	const { summonerName } = req.params
