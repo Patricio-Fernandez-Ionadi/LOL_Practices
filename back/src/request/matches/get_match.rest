@@ -1,1 +1,1 @@
-GET http://localhost:3001/matches/LA2_1116684394
+GET http://localhost:3001/matches/history/LA2_1116863670

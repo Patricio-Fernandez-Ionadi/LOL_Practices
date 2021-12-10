@@ -1,8 +1,9 @@
 const { Router } = require("express")
 const matchesRoute = Router()
 
-const { match } = require("../controllers/matches.controller")
+const { matchInfo, currentMatch } = require("../controllers/matches.controller")
 
-matchesRoute.get("/:matchId", match)
+matchesRoute.get("/current", currentMatch)
+matchesRoute.get("/history/:matchId", matchInfo)
 
 module.exports = matchesRoute
