@@ -1,26 +1,35 @@
-import { useContext } from "react"
-import { AllChampionsContext } from "../../services/getAllChampions"
+import { useEffect, useState } from "react"
 import Loading from "../../components/Loading"
-import ChampionsPortrait from "./ChampionsPortrait"
-
-const componentContainer = {
-	display: "flex",
-	flexWrap: "wrap",
-	width: "100%",
-}
+import { env } from "../../environment"
 
 const Champions = () => {
-	const champsContext = useContext(AllChampionsContext)
+	const [allChamps, setAllChamps] = useState(null)
 
-	if (champsContext) {
-		let champs = champsContext[0]
+	useEffect(() => {
+		fetch(`${env.SV_HOST}/champions`)
+			.then((res) => res.json())
+			.then((res) => {
+				setAllChamps(res)
+			})
+	}, [])
+
+	if (allChamps) {
 		return (
-			<div style={componentContainer}>
-				{champs.map((each) => {
-					const { key, name, id } = each
-					return <ChampionsPortrait key={key} name={name} id={id} each={each} />
-				})}
-			</div>
+			<>
+				<div>champions</div>
+				{allChamps.map((each) => (
+					<div key={each.key}>
+						<p>
+							{each.name}
+							<img
+								src={`http://ddragon.leagueoflegends.com/cdn/11.24.1/img/champion/${each.id}.png`}
+								alt=''
+							/>
+						</p>
+						<p>{each.title}</p>
+					</div>
+				))}
+			</>
 		)
 	} else {
 		return <Loading />

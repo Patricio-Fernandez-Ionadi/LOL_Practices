@@ -1,22 +1,19 @@
-import React, { useContext, useEffect, useState } from "react"
-import { useHistory } from "react-router-dom"
-import { SearchingSummonerContext } from "../context/SummonerSearchContext"
+import { useState } from "react"
+// import { useHistory } from "react-router-dom"
 
 const SearchBar = () => {
 	const [searchInput, setSearchInput] = useState("")
-	const summ = useContext(SearchingSummonerContext)
-	let history = useHistory()
+	// let history = useHistory()
 
 	// ----.............
 	const handleSubmitSearchSummoner = (e) => {
 		e.preventDefault()
-		summ.setSearchSummoner(searchInput)
 		setSearchInput("")
 	}
 
-	useEffect(() => {
-		if (summ.summoner) history.push(`/summoner/${summ.summoner}`)
-	}, [summ, history])
+	// useEffect(() => {
+	// 	if (summ.summoner) history.push(`/summoner/${summ.summoner}`)
+	// }, [summ, history])
 
 	return (
 		<form onSubmit={handleSubmitSearchSummoner}>

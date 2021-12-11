@@ -1,4 +1,5 @@
 require("dotenv").config()
+require("./connection")
 
 const express = require("express")
 const { json } = require("express")
