@@ -1,9 +1,13 @@
-import { useParams } from "react-router-dom"
-import useSummoner from "../../services/useSummoner"
+import { useParams } from 'react-router-dom'
+import useSummoner from '../../services/useSummoner'
 
 const SummonerStats = () => {
 	let { summonerName } = useParams()
 	const summoner = useSummoner(encodeURI(summonerName))
+
+	// console.log(summoner)
+
+	// console.log('summ stats')
 
 	if (summoner) {
 		return (
