@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react"
-import { env } from "../environment"
+import { useEffect, useState } from 'react'
+import { env } from '../environment'
 
 const useSummoner = (summonerName) => {
 	const [state, setState] = useState()
+
+	console.log(summonerName)
 
 	useEffect(() => {
 		return fetch(`${env.SV_HOST}/summoner/${summonerName}`)
@@ -10,12 +12,13 @@ const useSummoner = (summonerName) => {
 			.then((res) => {
 				if (res) {
 					setState(res)
-					return
+					// return
 				}
 			})
 	}, [summonerName])
 
-	if (summonerName && summonerName !== "") {
+	if (summonerName && summonerName !== '') {
+		console.log(state)
 		return state
 	} else {
 		return false
