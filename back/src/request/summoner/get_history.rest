@@ -1,0 +1,4 @@
+GET http://localhost:3001/summoner/Agnael/history
+
+###
+GET http://localhost:3001/summoner/Agnael/history/LA2_1127869864

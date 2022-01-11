@@ -1,7 +1,7 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 const { model, Schema } = mongoose
 
-const champsSchema = new Schema({
+const champSchema = new Schema({
 	version: String,
 	id: String,
 	key: String,
@@ -49,14 +49,6 @@ const champsSchema = new Schema({
 	},
 })
 
-champsSchema.set("toJSON", {
-	transform: (document, returnedObject) => {
-		// returnedObject.id = returnedObject._id
-		// delete returnedObject._id
-		// delete returnedObject.__v
-	},
-})
+const Champ = model('champions', champSchema)
 
-const Champs = model("champions", champsSchema)
-
-module.exports = Champs
+module.exports = Champ

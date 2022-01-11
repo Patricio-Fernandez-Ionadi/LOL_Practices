@@ -1,13 +1,12 @@
-const { champs } = require("../services/championServices")
+const { getAllChamps, getChamp } = require('../services/championServices')
 
 exports.allChamps = async (req, res) => {
-	const champions = await champs.getAll()
-	// console.log(champions)
+	const champions = await getAllChamps()
 	res.json(champions)
 }
 
 exports.champion = async (req, res) => {
 	const { championName } = req.params
-	const champion = await champs.getByName(championName)
+	const champion = await getChamp(championName)
 	res.json(champion)
 }

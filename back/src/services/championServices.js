@@ -1,60 +1,53 @@
-const axios = require("axios")
-const { headerRequest } = require("../helpers")
-const Champs = require("../models/championsModel")
+const axios = require('axios')
+const { headerRequest } = require('../helpers')
+const Champ = require('../models/championsModel')
 
-exports.champs = {
-	getAll: async () => {
-		const champsInformation = await Champs.find({})
+const getAllChamps = async () => {
+	let version = '11.23.1'
+	const champs = await Champ.find({})
 
-		let currentVersion = "11.23.1"
-
-		if (champsInformation[0].version === currentVersion) {
-			console.log("champions data from mongo")
-			return champsInformation
-		}
-		console.log("champions data from api")
-		await Champs.deleteMany({})
-
+	if (!champs) {
 		const { data } = await axios
 			.get(
-				`http://ddragon.leagueoflegends.com/cdn/11.23.1/data/en_US/champion.json`,
+				`http://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion.json`,
 				headerRequest
 			)
 			.catch((e) => ({
 				allchampsError: {
-					status: e.status,
-					data: e.data,
+					status: e.response.status,
 					error: e,
 				},
 			}))
 
 		for (let champ in data.data) {
-			const newChamp = new Champs(data.data[champ])
+			const newChamp = new Champ(data.data[champ])
+
 			try {
 				await newChamp.save()
 			} catch (e) {
 				console.log(e)
 			}
 		}
+	}
 
-		const champsUpdatedFromApi = await Champs.find({})
-
-		return champsUpdatedFromApi
-	},
-	getByName: async (champName) => {
-		const { data } = await axios
-			.get(
-				`http://ddragon.leagueoflegends.com/cdn/11.23.1/data/en_US/champion/${champName}.json`,
-				headerRequest
-			)
-			.catch((e) => ({
-				championError: {
-					status: e.status,
-					data: e.data,
-					error: e,
-				},
-			}))
-
-		return data
-	},
+	return champs
 }
+
+const getChamp = async (champName) => {
+	const { data } = await axios
+		.get(
+			`http://ddragon.leagueoflegends.com/cdn/11.23.1/data/en_US/champion/${champName}.json`,
+			headerRequest
+		)
+		.catch((e) => ({
+			championError: {
+				status: e.status,
+				data: e.data,
+				error: e,
+			},
+		}))
+
+	return data
+}
+
+module.exports = { getAllChamps, getChamp }
