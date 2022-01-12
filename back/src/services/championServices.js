@@ -69,9 +69,11 @@ const _obtainSplashesUrl = async (champName, skines) => {
 const _obtainLoadingUrl = async (champName, skines) => {
 	let toResponse = []
 	for (let skin of skines) {
-		let response = await axios.get(
-			`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champName}_${skin.num}.jpg`
-		)
+		let response = await axios
+			.get(
+				`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champName}_${skin.num}.jpg`
+			)
+			.catch((err) => console.log(err.config.url))
 		toResponse = [...toResponse, response.config.url]
 	}
 	return Promise.all(toResponse)
