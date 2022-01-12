@@ -11,24 +11,24 @@ exports.allChamps = async (req, res) => {
 }
 
 exports.champion = async (req, res) => {
-	const { championName } = req.params
+	const { championId } = req.params
 
-	const [mongoChamp] = await Champ.find({ name: championName })
+	const [mongoChamp] = await Champ.find({ id: championId })
 
 	if (mongoChamp.images.splash[0]) {
 		console.log('tiene imagenes, retornado desde mongo')
 		return res.json(mongoChamp)
 	} else {
 		console.log('no tiene images, lo actualizamos desde la api')
-		const championRequest = await getChamp(championName)
+		const championRequest = await getChamp(championId)
 
-		const champ = championRequest.data[championName]
-		const skines = championRequest.data[championName].skins
-		const spells = championRequest.data[championName].spells
-		const passiveD = championRequest.data[championName].passive.image.full
+		const champ = championRequest.data[championId]
+		const skines = championRequest.data[championId].skins
+		const spells = championRequest.data[championId].spells
+		const passiveD = championRequest.data[championId].passive.image.full
 
 		const { loading, spell, splash, avatar, passive } = await getChampImages(
-			championName,
+			championId,
 			skines,
 			spells,
 			passiveD
@@ -55,3 +55,4 @@ exports.champion = async (req, res) => {
 		return res.json(updatedChamp)
 	}
 }
+// a mano voy por draven
