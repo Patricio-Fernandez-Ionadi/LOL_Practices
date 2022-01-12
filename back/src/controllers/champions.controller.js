@@ -21,14 +21,17 @@ exports.champion = async (req, res) => {
 	} else {
 		console.log('no tiene images, lo actualizamos desde la api')
 		const championRequest = await getChamp(championName)
+
 		const champ = championRequest.data[championName]
 		const skines = championRequest.data[championName].skins
 		const spells = championRequest.data[championName].spells
+		const passiveD = championRequest.data[championName].passive.image.full
 
 		const { loading, spell, splash, avatar, passive } = await getChampImages(
 			championName,
 			skines,
-			spells
+			spells,
+			passiveD
 		)
 
 		const newInfoForChamp = {

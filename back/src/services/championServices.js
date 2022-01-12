@@ -88,7 +88,7 @@ const _obtainSpellsUrl = async (spells) => {
 	return Promise.all(toResponse)
 }
 
-const getChampImages = async (champName, skines, spells) => {
+const getChampImages = async (champName, skines, spells, passiveD) => {
 	let splash = await _obtainSplashesUrl(champName, skines)
 	// console.log(splash, 'splash')
 
@@ -104,7 +104,7 @@ const getChampImages = async (champName, skines, spells) => {
 	const { url: avatar } = avatarUrl
 
 	const { config: passiveUrl } = await axios.get(
-		`http://ddragon.leagueoflegends.com/cdn/${version}/img/passive/${champName}_P.png`
+		`http://ddragon.leagueoflegends.com/cdn/${version}/img/passive/${passiveD}`
 	)
 	const { url: passive } = passiveUrl
 
