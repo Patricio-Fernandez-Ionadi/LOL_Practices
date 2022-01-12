@@ -1,12 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap");
+@font-face {
+	font-family: 'Beaufort';
+	src: url('assets/fonts/BeaufortforLOL-Regular.woff') format('woff');
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: 'Beaufort';
+	src: url('assets/fonts/BeaufortforLOL-Bold.woff') format('woff');
+	font-weight: 700;
+}
 
 body {
 	margin: 0;
-	font-family: "Cormorant Garamond", serif;
+	font-family: 'Beaufort', serif;
 	font-size: 24px;
 }
 
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+html {
+	box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
 }
