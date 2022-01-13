@@ -1,58 +1,15 @@
 const Champ = require('../models/championsModel')
-const {
-	getAllChamps,
-	getChamp,
-	getChampImages,
-} = require('../services/championServices')
+const { setAllChamps } = require('../services/champions')
 
 exports.allChamps = async (req, res) => {
-	const champions = await getAllChamps()
-	res.json(champions)
-}
+	const champs = await Champ.find({})
 
-exports.champion = async (req, res) => {
-	const { championId } = req.params
-
-	const [mongoChamp] = await Champ.find({ id: championId })
-
-	if (mongoChamp.images.splash[0]) {
-		console.log('tiene imagenes, retornado desde mongo')
-		return res.json(mongoChamp)
+	if (!champs[0]) {
+		const response = await setAllChamps()
+		console.log('no hay champs o.O, los seteamos.')
+		return res.json(response)
 	} else {
-		console.log('no tiene images, lo actualizamos desde la api')
-		const championRequest = await getChamp(championId)
-
-		const champ = championRequest.data[championId]
-		const skines = championRequest.data[championId].skins
-		const spells = championRequest.data[championId].spells
-		const passiveD = championRequest.data[championId].passive.image.full
-
-		const { loading, spell, splash, avatar, passive } = await getChampImages(
-			championId,
-			skines,
-			spells,
-			passiveD
-		)
-
-		const newInfoForChamp = {
-			...champ,
-			images: {
-				loading: [...loading],
-				spell: [...spell],
-				splash: [...splash],
-				avatar,
-				passive,
-			},
-		}
-
-		const updatedChamp = await Champ.findOneAndUpdate(
-			{ _id: mongoChamp._id },
-			newInfoForChamp,
-			{
-				new: true,
-			}
-		)
-		return res.json(updatedChamp)
+		console.log('champs obtenidos de mongo "allChamps" in champs.controller')
+		return res.json(champs)
 	}
 }
-// a mano voy por draven
