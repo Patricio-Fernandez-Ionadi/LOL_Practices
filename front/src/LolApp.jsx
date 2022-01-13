@@ -1,18 +1,15 @@
 import { Route, Switch } from 'react-router-dom'
-// import SearchBar from './components/SearchBar'
-import { Home } from './pages'
-import Champions from './routes/champions/Champions'
-import Champion from './routes/champions/Champion'
-import SummonerStats from './routes/summoner/SummonerStats'
+import { Navigation } from './components/Navigation'
+
+import { Champion, Home, Champions } from './pages'
 
 function LolApp() {
 	return (
 		<>
-			{/* <SearchBar /> */}
+			<Navigation />
 			<Switch>
 				<Route exact path='/champions' component={Champions} />
 				<Route exact path='/champions/:champion' component={Champion} />
-				<Route exact path='/summoner/:summonerName' component={SummonerStats} />
 				<Route exact path='/' component={Home} />
 			</Switch>
 		</>

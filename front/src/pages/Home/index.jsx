@@ -1,14 +1,15 @@
 import React from 'react'
 
-import { CHAMPIONS } from '../../constant'
-import styles from './styles.module.css'
+import { useAllChamps } from '../../services/useAllChamps'
+
+import { ChampionCardsContainer } from '../../components/Champion/ChampionCardsContainer'
 
 export const Home = () => {
+	const [champions, loadingChamps] = useAllChamps()
+
 	return (
-		<div className={styles.container}>
-			<div className={styles.card}>
-				<p>card</p>
-			</div>
-		</div>
+		<main>
+			<ChampionCardsContainer champions={champions} isLoading={loadingChamps} />
+		</main>
 	)
 }
