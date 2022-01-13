@@ -17,7 +17,10 @@ app.use(json())
 // ---------------------------------------------------------------------
 
 app.get('/', (req, res) => {
-	res.send('App')
+	res.json({
+		application: 'LoL Practices',
+		repo: 'https://github.com/Patricio-Fernandez-Ionadi/LOL_Practices',
+	})
 })
 
 app.use('/summoner', summonerRoute)
