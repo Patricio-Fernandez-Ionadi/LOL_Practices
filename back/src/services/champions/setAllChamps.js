@@ -106,12 +106,13 @@ const setAllChamps = async () => {
 			})
 
 			// // // // guardar el objeto en la base de datos
-			console.log(`saved ${i} champions`)
 			await setChampToSave.save()
 
 			const champsStoredInDb = await Champ.find({})
 
-			console.log(champsStoredInDb.length)
+			console.log(
+				`saved ${champsStoredInDb.length} champions of ${champIds.length} in loop ${i}`
+			)
 
 			// if
 
