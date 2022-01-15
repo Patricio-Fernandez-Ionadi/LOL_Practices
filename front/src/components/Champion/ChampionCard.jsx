@@ -12,7 +12,7 @@ export const ChampionCard = ({ id, images }) => {
 		>
 			<div className={styles.cardPortrait}></div>
 			<div className={styles.card}>
-				<img className={styles.champAvatar} src={images.avatar[0]} alt={id} />
+				<img className={styles.champAvatar} src={images.avatar} alt={id} />
 			</div>
 		</Link>
 	)
