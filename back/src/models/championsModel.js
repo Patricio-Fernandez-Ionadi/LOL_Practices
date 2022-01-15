@@ -49,11 +49,11 @@ const champSchema = new Schema({
 		attackspeed: Number,
 	},
 	images: {
-		loading: [String],
-		avatar: [String],
-		spell: [String],
-		splash: [String],
-		passive: [String],
+		loadings: [String],
+		avatar: String,
+		spells: [String],
+		splashes: [String],
+		passive: String,
 	},
 	spells: [
 		{
