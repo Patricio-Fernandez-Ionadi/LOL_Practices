@@ -1,4 +1,4 @@
-let version = '11.23.1'
+const { VERSION } = require('../../constant')
 
 const getAllSplashesUrls = (champion) => {
 	const splashes = champion.skins.map(
@@ -19,7 +19,7 @@ const getAllLoadingUrls = (champion) => {
 const getAllSpellsUrls = (champion) => {
 	const spells = champion.spells.map(
 		(e) =>
-			`http://ddragon.leagueoflegends.com/cdn/${version}/img/spell/${e.id}.png`
+			`http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/spell/${e.id}.png`
 	)
 	return spells
 }
@@ -28,10 +28,10 @@ const getChampImages = (champion) => {
 	const splashes = getAllSplashesUrls(champion)
 	const loadings = getAllLoadingUrls(champion)
 	const spells = getAllSpellsUrls(champion)
-	const avatar = `http://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion.id}.png`
+	const avatar = `http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/champion/${champion.id}.png`
 	// avatar[url]
 
-	const passive = `http://ddragon.leagueoflegends.com/cdn/${version}/img/passive/${champion.passive.image.full}`
+	const passive = `http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/passive/${champion.passive.image.full}`
 	// passive[url]
 
 	const images = {

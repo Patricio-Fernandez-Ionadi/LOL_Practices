@@ -3,10 +3,8 @@ const axios = require('axios')
 const { headerRequest } = require('../../helpers')
 const Champ = require('../../models/championsModel')
 
+const { VERSION, LANGUAGE } = require('../../constant')
 const { getChampImages } = require('./getImages')
-
-let version = '11.23.1'
-let language = 'es_AR'
 
 /** _askForGeneralChampsInfo
  * devuelve un array de dos posiciones con informacion basica sobre los campeones segun la version y el lenguage
@@ -19,7 +17,7 @@ const _askForGeneralChampsInfo = async () => {
 	// objeto con los campeones con informacion general
 	const { data: firstApiCall } = await axios
 		.get(
-			`http://ddragon.leagueoflegends.com/cdn/${version}/data/${language}/champion.json`,
+			`http://ddragon.leagueoflegends.com/cdn/${VERSION}/data/${LANGUAGE}/champion.json`,
 			headerRequest
 		)
 		.catch((e) => {
@@ -46,7 +44,7 @@ const _askForGeneralChampsInfo = async () => {
 const _askForSpecificChampInfo = async (champId) => {
 	const response = await axios
 		.get(
-			`http://ddragon.leagueoflegends.com/cdn/11.23.1/data/${language}/champion/${champId}.json`,
+			`http://ddragon.leagueoflegends.com/cdn/11.23.1/data/${LANGUAGE}/champion/${champId}.json`,
 			headerRequest
 		)
 		.catch((e) => {
