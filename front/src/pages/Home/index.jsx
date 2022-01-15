@@ -8,8 +8,9 @@ export const Home = () => {
 	const [champions, loadingChamps] = useAllChamps()
 
 	return (
-		<main>
+		<>
+			<h1>HOME</h1>
 			<ChampionCardsContainer champions={champions} isLoading={loadingChamps} />
-		</main>
+		</>
 	)
 }
