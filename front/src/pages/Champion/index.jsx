@@ -1,11 +1,12 @@
 import React from 'react'
+
 import { useParams } from 'react-router-dom'
 
-import { ChampionContent } from '../../components/Champion/ChampionContent'
+import { useChampionsContext } from '../../context/Champions/ChampionsContext'
+
 import { ChampionHabilities } from '../../components/Champion/ChampionHabilities'
 import { ChampionHero } from '../../components/Champion/ChampionHero'
 import { ChampionSkins } from '../../components/Champion/ChampionSkins'
-import { useChampionsContext } from '../../context/Champions/ChampionsContext'
 
 export const Champion = () => {
 	const { champion } = useParams()
@@ -15,15 +16,19 @@ export const Champion = () => {
 	if (!isLoading) {
 		const [champ] = champions.filter((champ) => champ.id === champion)
 		console.log(champ)
-	}
 
-	return (
-		<div>
-			<h1>Champion</h1>
-			<ChampionHero />
-			<ChampionContent />
-			<ChampionHabilities />
-			<ChampionSkins />
-		</div>
-	)
+		return (
+			<div>
+				<ChampionHero {...champ} />
+				<ChampionHabilities />
+				<ChampionSkins />
+			</div>
+		)
+	} else {
+		return (
+			<>
+				<h1>LOADING...</h1>
+			</>
+		)
+	}
 }
