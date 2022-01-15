@@ -8,7 +8,15 @@ const { getChampImages } = require('./getImages')
 let version = '11.23.1'
 let language = 'es_AR'
 
+/** _askForGeneralChampsInfo
+ * devuelve un array de dos posiciones con informacion basica sobre los campeones segun la version y el lenguage
+ * @returns [champions: {}, champsIds: [String]]
+ *
+ *  - primera posicion retorna un objeto con properties que son el nombre del campeon y el valor que es informacion general del mismo
+ *  -	segunda posicion retorna un array con todas las ids de los campeones
+ */
 const _askForGeneralChampsInfo = async () => {
+	// objeto con los campeones con informacion general
 	const { data: firstApiCall } = await axios
 		.get(
 			`http://ddragon.leagueoflegends.com/cdn/${version}/data/${language}/champion.json`,
@@ -25,12 +33,16 @@ const _askForGeneralChampsInfo = async () => {
 		})
 
 	const championsInfoG = firstApiCall.data
-	// console.log(generalChampionsInfoG) // {"champ": {...},"champ": {...}, ...}
 	const champsIds = Array.from(Object.keys(championsInfoG))
 
 	return [championsInfoG, champsIds]
 }
 
+/**_askForSpecificChampInfo
+ * devuelve informacion detallada de un campeon especifico
+ * @param {String} champId Id del campeon a buscar (nombre sin espacios ni caracteres extraños)
+ * @returns {Object} Informacion detallada de un campeon especifico
+ */
 const _askForSpecificChampInfo = async (champId) => {
 	const response = await axios
 		.get(
@@ -51,23 +63,14 @@ const _askForSpecificChampInfo = async (champId) => {
 }
 
 const setAllChamps = async () => {
-	// ----------------------------------------------------------------------------------
-	// -la base de datos esta vacia
+	// - antes de setear eliminamos todos los documentos de la coleccion
 	await Champ.deleteMany({})
-	// ----------------------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------------------
 	// obtenemos todos los campeones de la Api (informacion general)
-
 	const [championBase_, champIds] = await _askForGeneralChampsInfo()
+	// _askForGeneralChampsInfo -> line 11
 
-	// return [champIds, championBase_]
-
-	// ----------------------------------------------------------------------------------
-
-	// ----------------------------------------------------------------------------------
-	// // debemos obtener alguna forma de operar con cada uno
-
+	// debemos obtener alguna forma de operar con cada uno
 	for (let i = 0; i < champIds.length; i++) {
 		const currentIdInFor = champIds[i]
 		const currentChampInFor = championBase_[currentIdInFor]
@@ -78,21 +81,7 @@ const setAllChamps = async () => {
 
 			// // // de cada informacion completa la usaremos para obtener informacion de la cantidad de skins, los spells y la pasiva para poder obtener informacion de la url de las imagenes de todas estas y tambien de la pantalla de carga
 
-			const currentChampSkins = currentChampDetail.skins
-			// -> [{id, num , name , chromas},...]
-
-			const currentChampSpells = currentChampDetail.spells
-			//  -> [{id, name, description, tooltip,leveltip: [Object],maxrank,cooldown: [],cooldownBurn,cost: [],costBurn,datavalues: {},effect: [],effectBurn: [],vars: [],costType,maxammo,range: [],rangeBurn,image: [Object],resource},...]
-
-			const currentChampPassiveImagePath = currentChampDetail.passive.image.full
-			//  --> passive : {name, description, image: {full, sprite, group, x, y, w, h}}
-
-			const images = await getChampImages(
-				currentIdInFor,
-				currentChampSkins,
-				currentChampSpells,
-				currentChampPassiveImagePath
-			)
+			const images = getChampImages(currentChampDetail)
 
 			// // // con esa informacion deberemos crear un champ con
 			// // //  - la informacion de la api
@@ -108,11 +97,9 @@ const setAllChamps = async () => {
 			// // // // guardar el objeto en la base de datos
 			await setChampToSave.save()
 
-			const champsStoredInDb = await Champ.find({})
+			// const champsStoredInDb = await Champ.find({})
 
-			console.log(
-				`saved ${champsStoredInDb.length} champions of ${champIds.length} in loop ${i}`
-			)
+			console.log(`saved ${i} champions of ${champIds.length} in loop ${i}`)
 
 			// if
 
