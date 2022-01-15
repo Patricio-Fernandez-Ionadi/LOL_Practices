@@ -1,5 +1,8 @@
 GET http://localhost:3001/champions
 
 ###
+GET http://localhost:3001/champions/set
+
+###
 GET http://localhost:3001/champions/Fizz
 
