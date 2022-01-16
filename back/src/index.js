@@ -33,10 +33,12 @@ const server = app.listen(PORT, () => {
 	const routes = {
 		index: `http://localhost:${PORT}`,
 		summoner: `http://localhost:${PORT}/summoner/:summonerName`,
+		summonerAll: `http://localhost:${PORT}/summoner/admin/getAll`,
 		summoner_history: `http://localhost:${PORT}/summoner/:summonerName/history`,
 		summoner_match: `http://localhost:${PORT}/summoner/:summonerName/history/:matchId`,
 		matches: `http://localhost:${PORT}/matches`,
 		champions: `http://localhost:${PORT}/champions`,
+		championsReset: `http://localhost:${PORT}/champions/set`,
 		champion_detail: `http://localhost:${PORT}/champions/:champion`,
 	}
 
