@@ -1,5 +1,5 @@
 require('dotenv').config()
-require('./connection')
+require('./config/connection')
 
 const express = require('express')
 const { json } = require('express')
@@ -9,7 +9,6 @@ const cors = require('cors')
 
 const summonerRoute = require('./routes/summoner.route')
 const championsRoute = require('./routes/champions.route')
-const matchesRoute = require('./routes/matches.route')
 // ---------------------------------------------------------------------
 app.use(cors())
 app.use(json())
@@ -24,7 +23,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/summoner', summonerRoute)
-app.use('/matches', matchesRoute)
 app.use('/champions', championsRoute)
 
 const { NODE_ENV } = process.env
@@ -36,7 +34,6 @@ const server = app.listen(PORT, () => {
 		summonerAll: `http://localhost:${PORT}/summoner/admin/getAll`,
 		summoner_history: `http://localhost:${PORT}/summoner/:summonerName/history`,
 		summoner_match: `http://localhost:${PORT}/summoner/:summonerName/history/:matchId`,
-		matches: `http://localhost:${PORT}/matches`,
 		champions: `http://localhost:${PORT}/champions`,
 		championsReset: `http://localhost:${PORT}/champions/set`,
 		champion_detail: `http://localhost:${PORT}/champions/:champion`,
