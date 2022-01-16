@@ -1,17 +1,11 @@
-const {
-	getSummonerByName,
-	getSummonerHistory,
-	getSummonerMatch,
-} = require('../services/summonerServices')
+const Summoner = require('../models/summonerModel')
+const { getSummonerByName, getSummonerMatch } = require('../services/summoner')
 
 exports.summonerResume = async (req, res) => {
 	const { summonerName } = req.params
 
 	try {
 		const summ = await getSummonerByName(summonerName)
-		// console.log("----------------------------")
-		// console.log(summ)
-		// console.log("----------------------------")
 		res.json(summ)
 	} catch (e) {
 		res.json(e)
@@ -19,11 +13,12 @@ exports.summonerResume = async (req, res) => {
 }
 
 exports.summonerHistory = async (req, res) => {
+	// TODO
 	// const { puuid } = req.body.user
 	const { summonerName } = req.params
 
 	const summ = await getSummonerByName(summonerName)
-	const matchList = await getSummonerHistory(summ.puuid)
+	// const matchList = await getSummonerHistory(summ.puuid)
 
 	res.json(matchList)
 }
@@ -33,4 +28,9 @@ exports.summonerMatch = async (req, res) => {
 	const { teams, timeLine, info } = await getSummonerMatch(matchId)
 
 	return res.json(info)
+}
+
+exports.getAllSummoners = async (req, res) => {
+	const summoners = await Summoner.find({})
+	return res.json(summoners)
 }
