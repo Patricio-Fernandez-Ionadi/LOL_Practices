@@ -1,9 +1,9 @@
 const axios = require('axios')
 
-const { headerRequest } = require('../../helpers')
+const { headerRequest } = require('../../config/helpers')
 const Champ = require('../../models/championsModel')
 
-const { VERSION, LANGUAGE } = require('../../constant')
+const { VERSION, LANGUAGE } = require('../../config/constant')
 const { getChampImages } = require('./getImages')
 
 /** _askForGeneralChampsInfo

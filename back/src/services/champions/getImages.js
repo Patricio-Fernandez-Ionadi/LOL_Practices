@@ -1,4 +1,4 @@
-const { VERSION } = require('../../constant')
+const { VERSION } = require('../../config/constant')
 
 const getAllSplashesUrls = (champion) => {
 	const splashes = champion.skins.map(
