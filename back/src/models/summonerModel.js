@@ -1,10 +1,11 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 const { model, Schema } = mongoose
 
 const summonerSchema = new Schema({
 	id: String,
 	accountId: String,
 	puuid: String,
+	summonerName: String,
 	name: String,
 	profileIconId: Number,
 	revisionDate: Number,
@@ -25,6 +26,6 @@ const summonerSchema = new Schema({
 	},
 })
 
-const Summoner = model("summoners", summonerSchema)
+const Summoner = model('summoners', summonerSchema)
 
 module.exports = Summoner
