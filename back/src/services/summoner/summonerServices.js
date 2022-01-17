@@ -1,6 +1,7 @@
 const axios = require('axios')
 
 const { headerRequest } = require('../../config/helpers')
+const { VERSION } = require('../../config/constant')
 const Summoner = require('../../models/summonerModel')
 
 /**
@@ -106,6 +107,7 @@ const _createNewSummoner = async (summonerName) => {
 			name: summonerIds.name,
 			summonerName: summonerIds.name,
 			profileIconId: summonerIds.profileIconId,
+			profileIconUrl: `http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/profileicon/${summonerIds.profileIconId}.png`,
 			revisionDate: summonerIds.revisionDate,
 			summonerLevel: summonerIds.summonerLevel,
 		})
@@ -121,6 +123,7 @@ const _createNewSummoner = async (summonerName) => {
 			name: summonerIds.name,
 			summonerName: summonerIds.name,
 			profileIconId: summonerIds.profileIconId,
+			profileIconUrl: `http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/profileicon/${summonerIds.profileIconId}.png`,
 			revisionDate: summonerIds.revisionDate,
 			summonerLevel: summonerIds.summonerLevel,
 			stats: {
@@ -181,6 +184,12 @@ const _updateSummonerStatsLeague = async (summonerId) => {
 		// console.log(summoner)
 		return summoner
 	}
+}
+
+const _getProfileIconUrl = async () => {
+	axios.get(
+		`http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/profileicon/${icon}.png`
+	)
 }
 // ---------------------------------------------------------------------
 

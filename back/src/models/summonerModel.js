@@ -7,6 +7,7 @@ const summonerSchema = new Schema({
 	puuid: String,
 	summonerName: String,
 	name: String,
+	profileIconUrl: String,
 	profileIconId: Number,
 	revisionDate: Number,
 	summonerLevel: Number,
