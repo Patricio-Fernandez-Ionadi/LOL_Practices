@@ -1,1 +1,11 @@
+GET http://localhost:3001/summoner/Bot Bromance
+###
+GET http://localhost:3001/summoner/Hasaj
+###
 GET http://localhost:3001/summoner/Éster Piscore
+###
+GET http://localhost:3001/summoner/Agnael
+###
+GET http://localhost:3001/summoner/Booh the Ghost
+###
+GET http://localhost:3001/summoner/Oblecx
