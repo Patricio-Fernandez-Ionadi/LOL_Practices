@@ -1,18 +1,12 @@
 const { Router } = require('express')
 const summonerRoute = Router()
 
-const { currentMatch } = require('../controllers/matches.controller')
-const {
-	summonerResume,
-	summonerHistory,
-	summonerMatch,
-	getAllSummoners,
-} = require('../controllers/summoner.controller')
+const sumCtrl = require('../controllers/summoner.controller')
 
-summonerRoute.get('/:summonerName', summonerResume)
-summonerRoute.get('/:summonerName/getcurrentgame', currentMatch)
-summonerRoute.get('/:summonerName/history', summonerHistory)
-summonerRoute.get('/:summonerName/history/:matchId', summonerMatch)
-summonerRoute.get('/admin/getAll', getAllSummoners)
+summonerRoute.get('/:summonerName', sumCtrl.summonerResume)
+summonerRoute.get('/:summonerName/getcurrentgame', sumCtrl.currentMatch)
+summonerRoute.get('/:summonerName/history', sumCtrl.summonerHistory)
+summonerRoute.get('/:summonerName/history/:matchId', sumCtrl.summonerMatch)
+summonerRoute.get('/admin/getAll', sumCtrl.getAllSummoners)
 
 module.exports = summonerRoute

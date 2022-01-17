@@ -1,11 +1,7 @@
 const { Router } = require('express')
 const championsRoute = Router()
 
-const {
-	allChamps,
-	champion,
-	setChamps,
-} = require('../controllers/champions.controller')
+const { allChamps, setChamps } = require('../controllers/champions.controller')
 
 championsRoute.get('/', allChamps)
 
