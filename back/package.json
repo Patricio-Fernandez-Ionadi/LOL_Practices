@@ -5,8 +5,9 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development nodemon src/index.js",
-		"test": "cross-env NODE_ENV=test jest ./tests",
-		"test:watch": "npm run test -- --watchAll"
+		"start:test": "cross-env NODE_ENV=test node src/index.js",
+		"test": "cross-env NODE_ENV=test jest src/test",
+		"test:watch": "npm run test -- --watchAll --silent"
 	},
 	"keywords": [],
 	"author": "",
