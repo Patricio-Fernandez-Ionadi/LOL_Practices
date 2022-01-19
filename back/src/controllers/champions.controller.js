@@ -2,14 +2,24 @@ const axios = require('axios')
 
 const Champ = require('../models/championsModel')
 
-const { VERSION, LANGUAGE } = require('../../config/constant')
+const { VERSION, LANGUAGE } = require('../config/constant')
+const { headerRequest } = require('../config/helpers')
+
+const _generateAvatarUrl = () => {
+	const baseURL = `http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/champion/`
+	return (champ) => `${baseURL}${champ}.png`
+}
+
+const _genetartePassiveUrl = () => {
+	const baseURL = `http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/passive/`
+	return (passive) => `${baseURL}${passive}`
+}
 
 const getAllSplashesUrls = (champion) => {
-	const splashes = champion.skins.map(
+	return champion.skins.map(
 		(e) =>
 			`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.id}_${e.num}.jpg`
 	)
-	return splashes
 }
 
 const getAllLoadingUrls = (champion) => {
@@ -28,29 +38,40 @@ const getAllSpellsUrls = (champion) => {
 	return spells
 }
 
-const getChampImages = (champion) => {
+/** object with url of images from a specific champ
+ *
+ * @param {Object} champion campeon con informacion detallada
+ * @returns {
+ * 	loadings: [urls...],
+ * 	splashes: [urls...],
+ * 	loading: [urls...],
+ * 	avatar: String,
+ * 	passive: String
+ * }
+ */
+const createChampImagesUrls = (champion) => {
+	const getAvatar = _generateAvatarUrl()
+	const getPassive = _genetartePassiveUrl()
+
 	const splashes = getAllSplashesUrls(champion)
 	const loadings = getAllLoadingUrls(champion)
 	const spells = getAllSpellsUrls(champion)
-	const avatar = `http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/champion/${champion.id}.png`
-	// avatar[url]
 
-	const passive = `http://ddragon.leagueoflegends.com/cdn/${VERSION}/img/passive/${champion.passive.image.full}`
-	// passive[url]
+	const avatar = getAvatar(champion.id)
+	const passive = getPassive(champion.passive.image.full)
 
-	const images = {
+	return {
 		loadings,
 		avatar,
 		splashes,
 		passive,
 		spells,
 	}
-	return images
 }
 
 // ------------------------------------------------------------------------
 
-/**
+/** objeto con los campeones con informacion general
  * devuelve un array de dos posiciones con informacion basica sobre los campeones segun la version y el lenguage
  * @returns [champions: {}, champsIds: [String]]
  *
@@ -58,77 +79,86 @@ const getChampImages = (champion) => {
  *  -	segunda posicion retorna un array con todas las ids de los campeones
  */
 const _askForGeneralChampsInfo = async () => {
-	// objeto con los campeones con informacion general
-	const { data: firstApiCall } = await axios
-		.get(
+	try {
+		const { data: firstApiCall } = await axios.get(
 			`http://ddragon.leagueoflegends.com/cdn/${VERSION}/data/${LANGUAGE}/champion.json`,
 			headerRequest
 		)
-		.catch((e) => {
-			const Error = {
-				custom: 'an error ocrred while trying to get champion.json from Api',
-				status: e.status,
-				// message: e.message,
-				// error: e,
+
+		const championsInfoG = firstApiCall.data
+		const champsIds = Array.from(Object.keys(championsInfoG))
+
+		return [championsInfoG, champsIds]
+	} catch (e) {
+		console.warn(
+			'Catch Error champions.controller -> _askForGeneralChampsInfo',
+			{
+				name: e.name,
+				custom_name: 'API No response',
+				custom_message:
+					'an error ocrred while trying to get champion.json from Api',
+				message: e.message,
+				error: e,
+				status: 444,
 			}
-			return Error
-		})
-
-	const championsInfoG = firstApiCall.data
-	const champsIds = Array.from(Object.keys(championsInfoG))
-
-	return [championsInfoG, champsIds]
+		)
+	}
 }
 
-/**
+/** objeto con informacion detallada de un champ
  * devuelve informacion detallada de un campeon especifico
  * @param {String} champId Id del campeon a buscar (nombre sin espacios ni caracteres extraños)
  * @returns {Object} Informacion detallada de un campeon especifico
  */
 const _askForSpecificChampInfo = async (champId) => {
-	const response = await axios
-		.get(
+	try {
+		const { data } = await axios.get(
 			`http://ddragon.leagueoflegends.com/cdn/11.23.1/data/${LANGUAGE}/champion/${champId}.json`,
-			headerRequest
+			headerRequest,
+			{ timeout: 1000 }
 		)
-		.catch((e) => {
-			const Error = {
-				custom: `an error ocurred making api request for a specific champ: ${champId}`,
-				status: e.status,
-				// message: e.message,
-				// error: e,
-			}
-			return Error
-		})
 
-	return response.data.data[champId]
+		return data.data[champId]
+	} catch (e) {
+		let message =
+			typeof e.response !== 'undefined' ? e.response.data.message : e.message
+		console.warn(
+			'Catch Error champions.controller -> _askForSpecificChampInfo',
+			{
+				name: e.name,
+				// custom_name: '',
+				custom_message:
+					'an error ocrred while trying to get specific champion from Api',
+				message,
+				error: e,
+				url: e.config.url,
+			}
+		)
+	}
 }
 
+/** undefined
+ * - elimina toda la informacion en la coleccion de campeones
+ * - solicita la lista de campeones con informacion basica y sus respectivas ids
+ * - por cada campeon intentará:
+ * --	solicitar informacion especifica
+ * -- solicitar crear informacion sobre las imagenes
+ * -- crear un objeto con toda la informacion necesaria
+ * -- guarda el objeto en la coleccion de campeones
+ * @returns
+ */
 const setAllChamps = async () => {
-	// - antes de setear eliminamos todos los documentos de la coleccion
 	await Champ.deleteMany({})
-
-	// obtenemos todos los campeones de la Api (informacion general)
 	const [championBase_, champIds] = await _askForGeneralChampsInfo()
-	// _askForGeneralChampsInfo -> line 11
 
-	// debemos obtener alguna forma de operar con cada uno
 	for (let i = 0; i < champIds.length; i++) {
 		const currentIdInFor = champIds[i]
 		const currentChampInFor = championBase_[currentIdInFor]
 
 		try {
-			// // // de cada uno debemos buscar la informacion completa
 			const currentChampDetail = await _askForSpecificChampInfo(currentIdInFor)
 
-			// // // de cada informacion completa la usaremos para obtener informacion de la cantidad de skins, los spells y la pasiva para poder obtener informacion de la url de las imagenes de todas estas y tambien de la pantalla de carga
-
-			const images = getChampImages(currentChampDetail)
-
-			// // // con esa informacion deberemos crear un champ con
-			// // //  - la informacion de la api
-			// // //  - la informacion detallada
-			// // //  - una property images donde meteremos las url obtenidas en el paso anterior
+			const images = createChampImagesUrls(currentChampDetail)
 
 			const setChampToSave = new Champ({
 				...currentChampInFor,
@@ -136,29 +166,23 @@ const setAllChamps = async () => {
 				images,
 			})
 
-			// // // // guardar el objeto en la base de datos
 			await setChampToSave.save()
 
-			// const champsStoredInDb = await Champ.find({})
-
-			console.log(`saved ${i} champions of ${champIds.length} in loop ${i}`)
-
-			// if
+			console.log(
+				`saved ${i + 1} champions of ${champIds.length} in loop ${i + 1}`
+			)
 
 			// ----------------------------------------------------------------------------------
 		} catch (e) {
-			console.log(e, 'error')
-			const Error = {
-				custom: `an error ocrred in for loop trying to get ${currentIdInFor}`,
-				status: e.status,
-				// message: e.message,
-				// error: e,
-			}
-			return Error
+			console.warn('Catch Error champions.controller -> setAllChamps', {
+				name: e.name,
+				// custom_name: '',
+				custom_message: `an error ocrred while trying to set ${currentIdInFor} champion in Champ collection`,
+				message: e.message,
+				error: e,
+			})
 		}
 	}
-
-	return { status: 102 }
 }
 
 // ROUTE: /champions GET
@@ -169,6 +193,6 @@ exports.allChamps = async (req, res) => {
 
 // ROUTE: /champions/set GET
 exports.setChamps = async (req, res) => {
-	await setAllChamps()
-	return res.status(201)
+	const champs = await setAllChamps()
+	return res.status(201).json(champs)
 }

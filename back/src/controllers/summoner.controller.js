@@ -7,18 +7,30 @@ const Summoner = require('../models/summonerModel')
 
 // get a specific past match
 const getSummonerMatch = async (matchId) => {
-	// console.log('getSummonerMatch called')
+	console.log('getSummonerMatch called')
 	try {
 		const { info } = await matchTeams(matchId)
 		const { info: toResponse } = info
 		return toResponse
 	} catch (e) {
-		console.log('Catch error getSummonerMatch', {
+		let message =
+			typeof e.response !== 'undefined' ? e.response.data.message : e.message
+		console.warn('Catch Error summoner.controller -> getSummonerMatch', {
 			name: e.name,
-			message: e.message,
-			status: e.response?.status || e.status,
+			custom_message: `an error ocurred while trying to get match info of ${matchId}`,
+			message,
+			error: e,
+			url: e.config.url,
 		})
 	}
+}
+
+const matchTeams = async (matchId) => {
+	const { data: info } = await axios.get(
+		`${process.env.LOL_REGION}/lol/match/v5/matches/${matchId}`,
+		headerRequest
+	)
+	return { info }
 }
 
 // get an array with last 20 matches ids
@@ -31,11 +43,18 @@ const getSummonerHistoryIdsLeague = async (puuid) => {
 		)
 		return data
 	} catch (e) {
-		console.log('Catch error getSummonerHistoryIdsLeague ', {
-			name: e.name,
-			message: e.message,
-			error: e,
-		})
+		let message =
+			typeof e.response !== 'undefined' ? e.response.data.message : e.message
+		console.warn(
+			'Catch Error summoner.controller -> getSummonerHistoryIdsLeague',
+			{
+				name: e.name,
+				custom_message: `an error ocurred while trying to get matches ids list`,
+				message,
+				error: e,
+				url: e.config.url,
+			}
+		)
 	}
 }
 
@@ -51,19 +70,20 @@ const getCurrentMatch = async (summId) => {
 		)
 		return data
 	} catch (e) {
-		console.log('Error getCurrentMatch', {
-			status: e.status || e.response?.status,
+		let message =
+			typeof e.response !== 'undefined' ? e.response.data.message : e.message
+		console.warn('Catch Error summoner.controller -> getCurrentMatch', {
 			name: e.name,
-			message: e.message,
+			custom_message: `an error ocurred while trying to get current match`,
+			message,
 			error: e,
+			url: e.config.url,
 		})
 	}
 	// console.log('getCurrentMatch finished')
 	// console.log('##############################')
 }
 
-// ---------------------------------------------------------------------
-// ---------------------------------------------------------------------
 // ---------------------------------------------------------------------
 
 /** get summoner ids for a given summoner name
@@ -90,10 +110,14 @@ const _getSummonerByName = async (summonerName) => {
 		)
 		return data
 	} catch (e) {
-		console.log('Error _getSummonerByName', {
+		let message =
+			typeof e.response !== 'undefined' ? e.response.data.message : e.message
+		console.warn('Catch Error summoner.controller -> _getSummonerByName', {
 			name: e.name,
-			status: e.status || e.response?.status,
+			custom_message: `an error ocurred while trying to get summoner by name (${summonerName})`,
+			message,
 			error: e,
+			url: e.config.url,
 		})
 	}
 	// console.log('_getSummonerByName finished')
@@ -128,11 +152,14 @@ const _getSummonerStatsLeague = async (summonerId) => {
 		)
 		return data
 	} catch (e) {
-		console.log('######### Error _getSummonerStatsLeague #########', {
+		let message =
+			typeof e.response !== 'undefined' ? e.response.data.message : e.message
+		console.warn('Catch Error summoner.controller -> _getSummonerStatsLeague', {
 			name: e.name,
-			status: e.status || e.response?.status,
-			message: e.message,
+			custom_message: `an error ocurred while trying to get summoner stats (${summonerId})`,
+			message,
 			error: e,
+			url: e.config.url,
 		})
 	}
 	// console.log('_getSummonerStatsLeague finished')
@@ -178,17 +205,24 @@ const _updateSummonerStatsLeague = async (summonerId) => {
 			console.log('updated summoner in mongo')
 			return summToUpdate
 		} else {
-			console.log('summoner returned still without stats')
+			// console.log('summoner returned still without stats')
 			// console.log(summoner)
 			return summoner
 		}
 	} catch (e) {
-		console.log('######### Error _updateSummonerStatsLeague #########', {
-			name: e.name,
-			status: e.status || e.response?.status,
-			message: e.message,
-			error: e,
-		})
+		let message =
+			typeof e.response !== 'undefined' ? e.response.data.message : e.message
+		console.warn(
+			'Catch Error summoner.controller -> _updateSummonerStatsLeague',
+			{
+				name: e.name,
+				custom_message: `an error ocurred while trying to update summoner stats (${summonerId})`,
+				message,
+				error: e,
+				status: `${e.response.status} ${e.response.statusText}`,
+				url: e.config.url,
+			}
+		)
 	}
 	// console.log('_updateSummonerStatsLeague finished')
 	// console.log('#######################################')
@@ -256,11 +290,14 @@ const _createNewSummoner = async (summonerName) => {
 			return createdSummoner
 		}
 	} catch (error) {
-		console.log('######### Error _createNewSummoner #########', {
+		let message =
+			typeof e.response !== 'undefined' ? e.response.data.message : e.message
+		console.warn('Catch Error summoner.controller -> _createNewSummoner', {
 			name: e.name,
-			status: e.status || e.response?.status,
-			message: e.message,
+			custom_message: 'an error ocurred while trying to create a new summoner',
+			message,
 			error: e,
+			url: e.config.url,
 		})
 	}
 
@@ -277,13 +314,13 @@ const _createNewSummoner = async (summonerName) => {
  * @returns summoner object with ids and maybe stats... xD
  */
 const getSummonerByName = async (summonerName) => {
-	console.log('getSummonerByName called')
+	// console.log('getSummonerByName called')
 	const [summoner] = await Summoner.find({ name: summonerName })
 	if (summoner?.id && summoner?.stats?.leagueId) {
 		console.log('summoner from mongo 1st try')
 		return summoner
 	} else if (summoner && !summoner?.stats?.leagueId) {
-		console.log('summoner being updated')
+		// console.log('summoner being updated')
 		const updatedSummoner = await _updateSummonerStatsLeague(summoner.id)
 		return updatedSummoner
 	} else if (!summoner || !summoner.id) {
@@ -292,6 +329,10 @@ const getSummonerByName = async (summonerName) => {
 		return newSummoner
 	}
 }
+
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
 
 // ROUTE: /summoner/:summonerName GET
 exports.summonerResume = async (req, res) => {
@@ -313,21 +354,34 @@ exports.summonerHistory = async (req, res) => {
 	const summ = await getSummonerByName(summonerName)
 	const matchList = await getSummonerHistoryIdsLeague(summ.puuid)
 
-	const matches = await recopileAllInfoOfaHistoryList(matchList)
+	try {
+		let matches = []
 
-	res.json(matches)
+		for (let id in matchList) {
+			const match = await getSummonerMatch(matchList[id])
+			matches = [...matches, match]
+		}
+
+		await Promise.all(matches)
+
+		res.json(matches)
+	} catch (e) {
+		console.log('Error summonerHistory', {
+			name: e.name,
+			message: e.message,
+			error: e,
+		})
+	}
+
+	// res.json(matchList)
 }
 
 // ROUTE: /summoner/:summonerName/history/:matchId GET
 exports.summonerMatch = async (req, res) => {
 	const { matchId } = req.params
-	const { /* teams, */ /* timeLine, */ info } = await getSummonerMatch(matchId)
+	const info = await getSummonerMatch(matchId)
 
-	return res.json({
-		// teams,
-		// timeLine,
-		info,
-	})
+	return res.json(info)
 }
 
 // ROUTE: /summoner/admin/getAll GET
