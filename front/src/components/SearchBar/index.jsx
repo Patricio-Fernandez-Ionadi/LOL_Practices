@@ -2,22 +2,22 @@ import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 const SearchBar = () => {
-	const [searchInput, setSearchInput] = useState('')
+	const [inputValue, setInputValue] = useState('')
 	let history = useHistory()
 
-	const handleSubmitSearchSummoner = (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault()
-		history.push(`/summoner/${searchInput}`)
-		setSearchInput('')
+		history.push(`/summoner/${inputValue}`)
+		setInputValue('')
 	}
 
 	return (
-		<form onSubmit={handleSubmitSearchSummoner}>
+		<form onSubmit={handleSubmit}>
 			<input
 				type='text'
-				value={searchInput}
-				onChange={(e) => setSearchInput(e.target.value)}
-				placeholder='Search summoner'
+				placeholder='Buscar un invocador...'
+				value={inputValue}
+				onChange={({ target }) => setInputValue(target.value)}
 			/>
 		</form>
 	)
